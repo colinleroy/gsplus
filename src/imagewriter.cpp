@@ -1065,7 +1065,7 @@ bool Imagewriter::processCommandChar(Bit8u ch)
 			while (x < paramc(0))
 			{
 				curY += lineSpacing;
-				if (curY > bottomMargin)
+				if (curY > bottomMargin - lineSpacing)
 					newPage(true,false);
 				x++;
 			}
@@ -1119,7 +1119,7 @@ bool Imagewriter::processCommandChar(Bit8u ch)
 		{
 			curX = leftMargin;
 			curY += lineSpacing;
-			if (curY > bottomMargin)
+			if (curY > bottomMargin - lineSpacing)
 				newPage(true,false);
 		}
 		else
@@ -1131,7 +1131,7 @@ bool Imagewriter::processCommandChar(Bit8u ch)
 					moveTo = verttabs[i];
 
 			// Nothing found => Act like FF
-			if (moveTo > bottomMargin || moveTo < 0)
+			if (moveTo > bottomMargin - lineSpacing || moveTo < 0)
 				newPage(true,false);
 			else
 				curY = moveTo;
@@ -1148,7 +1148,7 @@ bool Imagewriter::processCommandChar(Bit8u ch)
 	case 0x0a:		// Line feed
 		//curX = leftMargin;
 		curY += lineSpacing;
-		if (curY > bottomMargin)
+		if (curY > bottomMargin - lineSpacing)
 			newPage(true,false);
 		return true;
 	case 0x0e:		//Select double width printing (SO) IW
@@ -1324,7 +1324,7 @@ void Imagewriter::printChar(Bit8u ch)
 	if((curX + x_advance) > rightMargin) {
 		curX = leftMargin;
 		curY += lineSpacing;
-		if (curY > bottomMargin) newPage(true,false);
+		if (curY > bottomMargin - lineSpacing) newPage(true,false);
 	}
 #endif // HAVE_SDL
 }
